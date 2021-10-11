@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { FormProvider } from "react-hook-form";
+import { Button, Grid } from "@material-ui/core";
+import FormInput from "./form/formInput";
+import { useAppHook } from "./AppHook";
 
-function App() {
+export default function App() {
+  const { fields, isSubmitDisabled, formInformation, onSubmit } = useAppHook();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "10px" }}>
+      <div style={{ padding: "10px" }}>
+        <FormProvider {...formInformation}>
+          <form>
+            <Grid container>
+              <Grid item xs={12}>
+                <FormInput {...fields.fullName} />
+              </Grid>
+              <Grid item xs={12}>
+                <FormInput {...fields.email} />
+              </Grid>
+              <Grid item xs={12}>
+                <FormInput {...fields.age} />
+              </Grid>
+            </Grid>
+          </form>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={isSubmitDisabled}
+            onClick={formInformation.handleSubmit(onSubmit)}
+          >
+            SUBMIT
+          </Button>
+        </FormProvider>
+      </div>
     </div>
   );
 }
-
-export default App;
